@@ -1,0 +1,23 @@
+<div class="masonry-container">
+    <ng-container *ngIf="trendingGIFs$ | async as GIFs">
+        <a *ngFor="let item of GIFs; index as i; trackBy: trackByFn"
+           [href]="item.id"
+           [tabindex]="i">
+            <ng-container *ngIf="(randomColor | pure) as bgColor">
+                <!-- Actual GIFs need to be fetched from url -->
+                <img [hidden]="!loadedGIFs[item.id]"
+                     [src]="item.images.original.url"
+                     [alt]="item.title"
+                     [style.background]="bgColor"
+                     (load)="loadedGIFs[item.id] = true">
+                <!-- Placeholder GIFs with the same ratio -->
+                <img [hidden]="loadedGIFs[item.id]"
+                     [style.aspectRatio]="item.images.original.width + '/' + item.images.original.height"
+                     [src]="'./assets/images/placeholder.gif'"
+                     [alt]="item.title"
+                     [style.background]="bgColor">
+            </ng-container>
+
+        </a>
+    </ng-container>
+</div>
