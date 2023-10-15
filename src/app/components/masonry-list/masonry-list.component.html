@@ -1,12 +1,12 @@
 <div
   class="masonry"
   appScrolledPastViewPort
-  (pastViewport)="loadNextPage($event)"
+  (pastViewport)="onPastViewport($event)"
 >
   <div class="masonry__container">
     <div
       class="masonry__container__item"
-      *ngFor="let item of trendingGIFs$ | async; index as i; trackBy: trackByFn"
+      *ngFor="let item of GIFs; index as i; trackBy: trackByFn"
       [tabindex]="i"
       (keydown.enter)="selectGif(item)"
       (click)="selectGif(item)"

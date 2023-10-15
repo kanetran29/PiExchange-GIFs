@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { tapResponse } from '@ngrx/component-store';
 import { ImmerComponentStore } from 'ngrx-immer/component-store';
 import { switchMap, tap } from 'rxjs';
-import { GiphyArrayResponse, GiphyGif, GiphyObjectResponse } from '../interfaces/giphy.interface';
+import { GiphyArrayResponse, GiphyGif } from '../interfaces/giphy.interface';
 import { GiphyService } from '../services/giphy.service';
 import { ApiStatus } from '../types/api-status.type';
 
@@ -13,7 +13,7 @@ interface GiphyFormState {
     selectedGIF?: GiphyGif;
     // api status
     getTrendingGIFsApiStatus: ApiStatus;
-    searchGIFsApiStatus: ApiStatus;
+    searchedGIFsApiStatus: ApiStatus;
     getSelectedGIFApiStatus: ApiStatus;
 }
 
@@ -26,10 +26,7 @@ export class GiphyStore extends ImmerComponentStore<GiphyFormState> {
     readonly getTrendingGIFsApiStatus$ = this.select(({ getTrendingGIFsApiStatus }) => getTrendingGIFsApiStatus);
 
     readonly getSearchedGIFs$ = this.select(({ searchedGIFs }) => searchedGIFs);
-    readonly getSearchGIFsApiStatus$ = this.select(({ searchGIFsApiStatus }) => searchGIFsApiStatus);
-
-    readonly getSelectedGIF$ = this.select(({ selectedGIF }) => selectedGIF);
-    readonly getSelectedGIFApiStatus$ = this.select(({ getSelectedGIFApiStatus }) => getSelectedGIFApiStatus);
+    readonly getSearchedGIFsApiStatus$ = this.select(({ searchedGIFsApiStatus }) => searchedGIFsApiStatus);
     // #endregion
 
     // #region Effect
@@ -62,20 +59,20 @@ export class GiphyStore extends ImmerComponentStore<GiphyFormState> {
         event$.pipe(
             tap(() => {
                 this.patchState({
-                    searchGIFsApiStatus: 'loading',
+                    searchedGIFsApiStatus: 'loading',
                 });
             }),
-            switchMap((searchQuery: string) => this.GiphyService.search(searchQuery)),
+            switchMap((searchQuery) => this.GiphyService.search(searchQuery)),
             tapResponse(
                 (res: GiphyArrayResponse) => {
                     this.patchState({
                         searchedGIFs: res.data,
-                        searchGIFsApiStatus: 'succeeded',
+                        searchedGIFsApiStatus: 'succeeded',
                     });
                 },
                 (err: HttpErrorResponse) => {
                     this.patchState({
-                        searchGIFsApiStatus: 'failed',
+                        searchedGIFsApiStatus: 'failed',
                     });
                     console.error(err);
                 }
@@ -83,24 +80,24 @@ export class GiphyStore extends ImmerComponentStore<GiphyFormState> {
         )
     );
 
-    readonly getSelectedGIF = this.effect<string>((event$) =>
+    readonly loadSearchedGIFsNextPage = this.effect<{ searchQuery: string; pageIndex: number }>((event$) =>
         event$.pipe(
             tap(() => {
                 this.patchState({
-                    getSelectedGIFApiStatus: 'loading',
+                    searchedGIFsApiStatus: 'loading',
                 });
             }),
-            switchMap((id: string) => this.GiphyService.getById(id)),
+            switchMap(({ searchQuery, pageIndex }) => this.GiphyService.search(searchQuery, pageIndex)),
             tapResponse(
-                (res: GiphyObjectResponse) => {
+                (res: GiphyArrayResponse) => {
                     this.patchState({
-                        selectedGIF: res.data,
-                        getSelectedGIFApiStatus: 'succeeded',
+                        searchedGIFs: this.get().searchedGIFs.concat(res.data),
+                        searchedGIFsApiStatus: 'succeeded',
                     });
                 },
                 (err: HttpErrorResponse) => {
                     this.patchState({
-                        getSelectedGIFApiStatus: 'failed',
+                        searchedGIFsApiStatus: 'failed',
                     });
                     console.error(err);
                 }
@@ -119,7 +116,7 @@ export class GiphyStore extends ImmerComponentStore<GiphyFormState> {
             selectedGIF: undefined,
             // api status
             getTrendingGIFsApiStatus: null,
-            searchGIFsApiStatus: null,
+            searchedGIFsApiStatus: null,
             getSelectedGIFApiStatus: null,
         });
     }

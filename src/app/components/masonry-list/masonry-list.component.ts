@@ -1,9 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PAGE_SIZE } from 'src/app/constants/giphy.const';
 import { GiphyGif } from 'src/app/interfaces/giphy.interface';
-import { GiphyStore } from 'src/app/stores/giphy.store';
-import { ApiStatus } from 'src/app/types/api-status.type';
 
 @Component({
   selector: 'app-masonry-list',
@@ -11,17 +8,12 @@ import { ApiStatus } from 'src/app/types/api-status.type';
   styleUrls: ['./masonry-list.component.scss']
 })
 export class MasonryListComponent {
+  @Input() GIFs: GiphyGif[] = [];
   @Output() gifSelected = new EventEmitter<GiphyGif>();
-  trendingGIFs$: Observable<GiphyGif[]> = this._store.getTrendingGIFs$;
-  apiStatus$: Observable<ApiStatus> = this._store.getTrendingGIFsApiStatus$;
-  loadedGIFs: Record<string, boolean> = {};
+  @Output() loadNextPage = new EventEmitter<number>();
   currentPage = 0;
   // display a half of the page
   readonly displaySize = PAGE_SIZE / 2;
-
-  constructor(private readonly _store: GiphyStore) {
-    this._store.getTrendingGIFs(0);
-  }
 
   randomColor(): string {
     const red = Math.floor(Math.random() * 256);
@@ -38,10 +30,10 @@ export class MasonryListComponent {
     return item.id;
   }
 
-  loadNextPage(viewportPage: number): void {
+  onPastViewport(viewportPage: number): void {
     if (viewportPage % 2 === 1) {
       this.currentPage++;
-      this._store.getTrendingGIFs(this.currentPage);
+      this.loadNextPage.emit(this.currentPage);
     }
   }
 

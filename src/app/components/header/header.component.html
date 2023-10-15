@@ -1,15 +1,14 @@
 <div class="header">
   <div class="header__left">
-    <img
-      class="header__left__icon"
-      src="./assets/images/trending.svg"
-      alt="trending"
-    />
-    <span class="header__left__text">Trending</span>
+    <span class="header__left__text">{{ currentMode }}</span>
   </div>
   <div class="header__right">
     <div class="header__right__search">
-      <input type="text" class="header__right__search__input" />
+      <input
+        [formControl]="inputForm"
+        type="text"
+        class="header__right__search__input"
+      />
       <img
         src="./assets/images/search-icon.svg"
         class="header__right__search__icon"

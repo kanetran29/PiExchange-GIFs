@@ -17,11 +17,8 @@
     display: flex;
     gap: 16px;
     align-items: center;
-    &__icon {
-      cursor: pointer;
-    }
     &__text {
-      font-size: 16px;
+      font-size: 20px;
       font-weight: 500;
       color: #000000;
     }
@@ -44,6 +41,7 @@
 
         width: 40px;
         height: 40px;
+        opacity: 0;
 
         &:hover {
           color: white;
@@ -62,6 +60,7 @@
           background: rgb(235, 235, 235);
           color: black;
           padding-right: 40px;
+          opacity: 1;
         }
       }
 

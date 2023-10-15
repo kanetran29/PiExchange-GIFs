@@ -1,17 +1,46 @@
-<app-header></app-header>
+<app-header
+  (searchValue)="onSearchValueChange($event)"
+  [currentMode]="currentMode"
+></app-header>
 <div class="content-container">
-  <app-masonry-list (gifSelected)="onSelectGif($event)"></app-masonry-list>
-</div>
-<div class="modal" *ngIf="modalOpen">
-  <div class="modal__backdrop"></div>
-  <div
-    #container
-    class="modal__container animate__animated"
-    [class.animate__zoomInUp]="modalOpen"
-  >
-    <div class="modal__container__close-btn" (click)="closePopup(container)">
-      <img src="./assets/images/close.svg" alt="close" />
+  <app-masonry-list
+    [class.hidden]="currentMode !== 'Trending'"
+    [GIFs]="(trendingGIFs$ | async)!"
+    (loadNextPage)="onLoadNextPage($event)"
+    (gifSelected)="onSelectGif($event)"
+  ></app-masonry-list>
+  <app-masonry-list
+    class="shifted-top"
+    *ngIf="currentMode === 'Search'"
+    [GIFs]="(searchedGIFs$ | async)!"
+    (loadNextPage)="onLoadNextPage($event)"
+    (gifSelected)="onSelectGif($event)"
+  ></app-masonry-list>
+  <div class="modal" *ngIf="modalOpen">
+    <div class="modal__backdrop"></div>
+    <div
+      #container
+      class="modal__container animate__animated"
+      [class.animate__zoomInUp]="modalOpen"
+    >
+      <div class="modal__container__close-btn" (click)="closePopup(container)">
+        <img src="./assets/images/close.svg" alt="close" />
+      </div>
+      <app-detail [gif]="selectedGif"></app-detail>
     </div>
-    <app-detail [gif]="selectedGif"></app-detail>
   </div>
 </div>
+<ng-container
+  *ngIf="{
+  trendingGIFsLoaded: (getTrendingGIFsApiStatus$ | async) === 'succeeded',
+  searchedGIFsLoaded: (getSearchedGIFsApiStatus$ | async) === 'succeeded',
+} as vm"
+  ><div
+    class="loader"
+    *ngIf="
+      (!vm.trendingGIFsLoaded && currentMode === 'Trending') ||
+      (!vm.searchedGIFsLoaded && currentMode === 'Search')
+    "
+  >
+    <img src="./assets/images/placeholder.gif" alt="loader" /></div
+></ng-container>

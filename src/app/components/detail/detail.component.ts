@@ -8,8 +8,4 @@ import { GiphyGif } from 'src/app/interfaces/giphy.interface';
 })
 export class DetailComponent {
   @Input() gif?: GiphyGif;
-  calcAspectRatio(gif: GiphyGif): string {
-    return `${gif.images.original.width}/${gif.images.original.height}`;
-  }
-
 }

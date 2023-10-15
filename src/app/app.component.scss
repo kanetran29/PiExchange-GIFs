@@ -4,6 +4,27 @@
   height: calc(100dvh - 56px - 8px);
   overflow: hidden;
   margin: 8px 8px 0px 8px;
+  app-masonry-list {
+    transition: all 0.3s ease-in-out;
+    &.hidden {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    &.shifted-top {
+      transform: translateY(-100%);
+    }
+  }
+}
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal {
