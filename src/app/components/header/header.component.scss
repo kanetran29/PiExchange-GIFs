@@ -1,63 +1,85 @@
 :host {
-    display: block;
-    box-shadow: 0 2px 8px #00000029;
+  display: block;
+  box-shadow: 0 2px 8px #00000029;
 }
 
 .header {
-    height: 56px;
-    width: 100%;
-    background-color: #FFFFFF;
+  height: 56px;
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  gap: 16px;
+
+  &__left {
     display: flex;
+    gap: 16px;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 5rem;
-
-    &__logo {
-        height: 32px;
+    &__icon {
+      cursor: pointer;
     }
+    &__text {
+      font-size: 16px;
+      font-weight: 500;
+      color: #000000;
+    }
+  }
 
+  &__right {
+    display: flex;
+    gap: 32px;
+    align-items: center;
     &__search {
-        $tl: 0.3s;
-        position: relative;
+      $duration: 0.3s;
+      position: relative;
 
-        .search-box {
-            transition: width $tl, border-radius $tl, background $tl, box-shadow $tl;
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-            background: rgb(235, 235, 235);
+      &__input {
+        transition: all $duration;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+        background: rgb(235, 235, 235);
 
-            &:hover {
-                color: white;
-                background: rgb(200, 200, 200);
-                box-shadow: 0 0 0 2px rgb(61, 71, 82);
-            }
+        width: 40px;
+        height: 40px;
 
-            &:focus {
-                transition: width $tl cubic-bezier(0, 1.22, .66, 1.39), border-radius $tl, background $tl;
-                border: none;
-                outline: none;
-                box-shadow: none;
-                padding-left: 15px;
-                cursor: text;
-                width: 300px;
-                border-radius: auto;
-                background: rgb(235, 235, 235);
-                color: black;
-            }
+        &:hover {
+          color: white;
+          background: rgb(200, 200, 200);
         }
 
-
-        .search-icon {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            color: white;
-            cursor: pointer;
-            pointer-events: none;
+        &:focus {
+          transition: all $duration cubic-bezier(0, 1.22, 0.66, 1.39);
+          border: none;
+          outline: none;
+          box-shadow: none;
+          padding-left: 20px;
+          cursor: text;
+          width: 300px;
+          border-radius: auto;
+          background: rgb(235, 235, 235);
+          color: black;
+          padding-right: 40px;
         }
+      }
 
+      &__icon {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        cursor: pointer;
+        pointer-events: none;
+      }
     }
+    &__logo {
+      height: 32px;
+      a {
+        display: flex;
+        align-items: center;
+        height: 32px;
+      }
+    }
+  }
 }

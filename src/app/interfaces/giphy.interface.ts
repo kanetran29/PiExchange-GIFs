@@ -15,12 +15,10 @@ export interface GiphyGif {
   type: string;
   id: string;
   url: string;
-  bitly_gif_url: string;
-  bitly_url: string;
-  embed_url: string;
   username: string;
   source: string;
   title: string;
+  rating: string;
   images: {
     original: GiphyImage;
   };

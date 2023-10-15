@@ -44,7 +44,7 @@ export class GiphyStore extends ImmerComponentStore<GiphyFormState> {
             tapResponse(
                 (res: GiphyArrayResponse) => {
                     this.patchState({
-                        trendingGIFs: res.data,
+                        trendingGIFs: this.get().trendingGIFs.concat(res.data),
                         getTrendingGIFsApiStatus: 'succeeded',
                     });
                 },

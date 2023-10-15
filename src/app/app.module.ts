@@ -1,29 +1,30 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { DetailComponent } from './components/detail/detail.component';
 import { HeaderComponent } from './components/header/header.component';
-import { TrendingComponent } from './components/trending/trending.component';
+import { MasonryListComponent } from './components/masonry-list/masonry-list.component';
+import { ScrolledPastViewPortDirective } from './directives/scrolled-past-viewport.directive';
 import { PureWrapperPipe } from './pipes/pure-wrapper.pipe';
 const components = [
   AppComponent,
-  TrendingComponent,
+  MasonryListComponent,
   HeaderComponent,
-  FooterComponent
-]
-const pipes = [PureWrapperPipe]
+  DetailComponent
+];
+const pipes = [PureWrapperPipe];
+const directives = [ScrolledPastViewPortDirective];
+
 @NgModule({
   declarations: [
-    ...components
+    ...components,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule,
-    ...pipes
+    ...pipes,
+    ...directives,
   ],
   providers: [],
   bootstrap: [AppComponent]

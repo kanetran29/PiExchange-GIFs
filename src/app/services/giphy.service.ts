@@ -16,7 +16,7 @@ export class GiphyService {
             ...GIPHY.TRENDING_PARAMS,
             offset: pageIndex * GIPHY.TRENDING_PARAMS.limit
         });
-        return this.http.get<GiphyArrayResponse>('/assets/mocks/trending.mock.json');
+        return this.http.get<GiphyArrayResponse>(`/assets/mocks/trending-${pageIndex}.mock.json`);
         //return this.http.get<GiphyArrayResponse>(url, { params: params });
     }
 

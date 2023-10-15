@@ -1,0 +1,45 @@
+<div
+  class="masonry"
+  appScrolledPastViewPort
+  (pastViewport)="loadNextPage($event)"
+>
+  <div class="masonry__container">
+    <div
+      class="masonry__container__item"
+      *ngFor="let item of trendingGIFs$ | async; index as i; trackBy: trackByFn"
+      [tabindex]="i"
+      (keydown.enter)="selectGif(item)"
+      (click)="selectGif(item)"
+    >
+      <ng-container
+        *ngIf="{
+          bgColor: randomColor | pure,
+          loaded: false,
+          aspectRatio: calcAspectRatio | pure : item
+        } as vm"
+      >
+        <!-- Actual GIFs need to be fetched from url -->
+        <img
+          [class.hidden]="!vm.loaded"
+          [src]="item.images.original.url"
+          [alt]="item.title"
+          (load)="vm.loaded = true"
+        />
+        <!-- Placeholder GIFs with the same ratio -->
+        <img
+          [class.hidden]="vm.loaded"
+          [style.aspectRatio]="vm.aspectRatio"
+          [src]="'./assets/images/placeholder.gif'"
+          [alt]="item.title"
+          [style.background]="vm.bgColor"
+        />
+      </ng-container>
+    </div>
+
+    <span class="masonry__container__item break"></span>
+    <span class="masonry__container__item break"></span>
+    <span class="masonry__container__item break"></span>
+    <span class="masonry__container__item break"></span>
+    <span class="masonry__container__item break"></span>
+  </div>
+</div>

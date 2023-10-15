@@ -1,0 +1,98 @@
+.content-container {
+  width: calc(100% - 8px * 2);
+  height: calc(100vh - 56px - 8px); // fallback for legacy browsers
+  height: calc(100dvh - 56px - 8px);
+  overflow: hidden;
+  margin: 8px 8px 0px 8px;
+}
+
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  &__backdrop {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  &__container {
+    background-color: white;
+    box-shadow: 0 2px 8px #00000029;
+    max-height: 100%;
+    max-width: 100%;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    border-radius: 10px;
+    transform: translate(50%, -50%);
+    &__close-btn {
+      position: absolute;
+      top: 8px;
+      left: calc(-8px - 32px);
+      cursor: pointer;
+      height: 32px;
+      width: 32px;
+      padding: 8px;
+      background-color: white;
+      border-radius: 5px;
+      transition: all 0.3s;
+      &:hover {
+        background-color: #ec6d6d;
+        img {
+          // using filter to change svg color
+          filter: invert(100%) sepia(1%) saturate(145%) hue-rotate(71deg)
+            brightness(124%) contrast(100%);
+        }
+      }
+      img {
+        transition: all 0.3s;
+        height: 16px;
+        width: 16px;
+        display: block;
+      }
+    }
+  }
+}
+
+.animate__animated {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+
+  &.animate__zoomInUp {
+    animation-name: zoomInUp;
+  }
+  &.animate__zoomOutDown {
+    animation-name: zoomOutDown;
+    transform-origin: center bottom;
+  }
+}
+
+@keyframes zoomInUp {
+  from {
+    opacity: 0;
+    transform: scale3d(0.1, 0.1, 0.1) translate3d(0, 1000px, 0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(0.475, 0.475, 0.475) translate3d(0, -60px, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+}
+@keyframes zoomOutDown {
+  40% {
+    opacity: 1;
+    transform: scale3d(0.475, 0.475, 0.475) translate3d(0, -60px, 0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale3d(0.1, 0.1, 0.1) translate3d(0, 2000px, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+}

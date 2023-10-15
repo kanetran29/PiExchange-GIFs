@@ -1,0 +1,32 @@
+<div class="detail" *ngIf="gif">
+  <div class="detail__top">
+    <span class="detail__top__title">{{ gif.title }}</span>
+    <span class="detail__top__rating">
+      <span>Rating:&nbsp;</span>
+      <span>{{ gif.rating }}</span>
+    </span>
+  </div>
+  <img class="detail__gif" [src]="gif.images.original.url" [alt]="gif.title" />
+  <div class="detail__bottom" *ngIf="gif.user">
+    <img
+      class="detail__bottom__avatar"
+      [src]="gif.user.avatar_url"
+      [alt]="gif.user.display_name"
+    />
+    <div class="detail__bottom__name">
+      <div class="detail__bottom__name__display-name">
+        <span>{{ gif.user.display_name }}</span>
+        <img
+          class="verified"
+          *ngIf="gif.user.is_verified"
+          src="./assets/images/verified.png"
+          alt="verified"
+        />
+      </div>
+
+      <span class="detail__bottom__name__username">
+        {{ gif.user.username }}
+      </span>
+    </div>
+  </div>
+</div>

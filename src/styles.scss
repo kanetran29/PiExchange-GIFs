@@ -2,15 +2,22 @@
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-body,
-html {
-    overflow: hidden;
+* {
+  // Support customized scrollbar on Webkit & Blink
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+
+  // Support customized scrollbar on Firefox
+  scrollbar-width: none;
 }
 
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }

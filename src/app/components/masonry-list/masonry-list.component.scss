@@ -1,0 +1,53 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+  .masonry {
+    height: 100%;
+    width: 100%;
+    overflow: hidden auto;
+    &__container {
+      display: flex;
+      flex-flow: column wrap;
+      align-content: space-between;
+      background-color: #fbfbfb;
+      height: 10000px;
+      $columns: 6; // Total columns
+
+      &__item {
+        width: calc((100% - 16px * ($columns - 1)) / $columns);
+        margin-bottom: 16px;
+        content-visibility: auto;
+        box-shadow: 0 2px 8px #00000029;
+
+        @for $i from 1 through $columns {
+          &:nth-of-type(#{$columns}n + #{$i}) {
+            order: #{$i};
+          }
+        }
+
+        img {
+          width: 100%;
+          object-fit: contain;
+          transition: transform 0.3s ease-in-out;
+          display: block;
+          opacity: 1;
+          &.hidden {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            transform: translateY(100%);
+          }
+        }
+
+        &.break {
+          flex-basis: 100%;
+          width: 0;
+          margin: 0;
+          content: "";
+          padding: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,17 @@
 <app-header></app-header>
-<app-trending></app-trending>
-<app-footer></app-footer>
+<div class="content-container">
+  <app-masonry-list (gifSelected)="onSelectGif($event)"></app-masonry-list>
+</div>
+<div class="modal" *ngIf="modalOpen">
+  <div class="modal__backdrop"></div>
+  <div
+    #container
+    class="modal__container animate__animated"
+    [class.animate__zoomInUp]="modalOpen"
+  >
+    <div class="modal__container__close-btn" (click)="closePopup(container)">
+      <img src="./assets/images/close.svg" alt="close" />
+    </div>
+    <app-detail [gif]="selectedGif"></app-detail>
+  </div>
+</div>
