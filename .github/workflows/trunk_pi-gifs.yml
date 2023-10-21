@@ -49,7 +49,7 @@ jobs:
           name: node-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip pi-exchange-gifs
+        run: unzip -o release.zip -d pi-exchange-gifs
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
