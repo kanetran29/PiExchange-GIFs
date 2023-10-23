@@ -32,7 +32,7 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: node-app
+          name: pi-gifs
           path: release.zip
 
   deploy:
@@ -46,7 +46,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: node-app
+          name: pi-gifs
 
       - name: Unzip artifact for deployment
         run: unzip -o release.zip -d ./pi-exchange-gifs
