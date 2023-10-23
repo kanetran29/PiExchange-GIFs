@@ -6,7 +6,7 @@ name: Build and deploy Node.js app to Azure Web App - pi-gifs
 on:
   push:
     branches:
-      - trunk
+      - topic/set-up-CI
   workflow_dispatch:
 
 jobs:
@@ -27,12 +27,12 @@ jobs:
           npm run build
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip -j release.zip ./dist/pi-exchange-gifs/* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: node-app
+          name: pi-gifs
           path: release.zip
 
   deploy:
@@ -46,10 +46,10 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: node-app
+          name: pi-gifs
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
+        run: unzip -o release.zip
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
