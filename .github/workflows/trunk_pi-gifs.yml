@@ -49,7 +49,7 @@ jobs:
           name: pi-gifs
 
       - name: Unzip artifact for deployment
-        run: unzip -o release.zip -d ./pi-exchange-gifs
+        run: unzip -o release.zip
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -58,4 +58,4 @@ jobs:
           app-name: 'pi-gifs'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3CAAC763465848A8A1935F997F085E47 }}
-          package: ./pi-exchange-gifs
+          package: .
